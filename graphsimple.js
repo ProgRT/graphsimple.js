@@ -34,7 +34,7 @@ function graphesimple(idsvg, conf) {
 
 	this.svg = d3.select(idsvg);
 
-	this.svg.attr("width", 1100);
+	this.svg.attr("width", 900);
 
 	this.animations = [];
 	this.anotations = [];
