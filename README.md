@@ -7,7 +7,4 @@ graphsimple.js is actualy a rough and dirty, undocumented tools written for pers
 
 ## Todo
 
-* Add support for method chaining
-* Add support for configuration object as a parameter
-* Add a GUI element to select a graph animation or state in a list
-* Add a «save as» function
+* 
