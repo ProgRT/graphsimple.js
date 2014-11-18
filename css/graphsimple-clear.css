@@ -1,0 +1,31 @@
+/*
+BleuCHUM	rgb(109,207,246)
+MarineCHUM	rgb(0,64,113)
+JauneCHUM	rgb(255,252,213)
+VertCHUM	rgb(114,191,68)
+TurquoiseCHUM	rgb(0,168,142)
+*/
+
+path {
+	fill:none;
+	stroke:black;
+	stroke-width:4px;
+}
+
+marker path, line {
+	stroke-width:2px;
+	stroke: black;
+	fill:none;
+}
+
+text {
+	fill:black;
+}
+
+text.anottation {
+	font-size:40px
+}
+
+.help {
+	stroke-dasharray:7 7;
+}
