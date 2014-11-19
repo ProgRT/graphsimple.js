@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-<script src="https://raw.githubusercontent.com/ProgRT/graphsimple.js/master/graphsimple.js" charset="utf-8"></script>
+<script src="graphsimple.js" charset="utf-8"></script>
 <script src="https://raw.githubusercontent.com/ProgRT/simvent.js/master/simvent.js" charset="utf-8"></script>
 
-<link rel="stylesheet" type="text/css" href="https://rawgithub.com/ProgRT/graphsimple.js/master/graphsimple-clear.css" charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="css/graphsimple-clear.css" charset="utf-8"/>
 
 <style>
 	body {
@@ -16,10 +16,9 @@
 
 <script>
 	var lung = new ssv.PoumonCool();
-	varventilator = new ssv.GenerateurPression();	
+	var ventilator = new ssv.GenerateurPression();	
 	var graph = new graphesimple("#svg1")
 	var data = ventilator.ventiler(lung);
 	graph.setscale(data.ventd, function(d){return d.temps}, function(d){return d.debit})
 	graph.tracer(data.ventd, function(d){return d.temps}, function(d){return d.debit})
-	graph.axes()
 </script>

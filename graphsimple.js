@@ -224,21 +224,25 @@ function graphesimple(idsvg, conf) {
 	}
 
 	this.axes = function(){
-		this.axex = this.svg.append("line")
-			.attr("x1", this.margeG)
-			.attr("x2", this.width - this.margeD)
-			.attr("y1", this.height - this.margeB)
-			.attr("y2", this.height - this.margeB)
-			.attr("class", "axe");
+		if(this.hasOwnProperty("axex")){console.log("Axe X déja présent");}
+		else{
+			this.axex = this.svg.append("line")
+				.attr("x1", this.margeG)
+				.attr("x2", this.width - this.margeD)
+				.attr("y1", this.height - this.margeB)
+				.attr("y2", this.height - this.margeB)
+				.attr("class", "axe");
+			console.log("Allo, le monde");
 
-		this.axey = this.svg.append("line")
-			.attr("x1", this.margeG)
-			.attr("x2", this.margeG)
-			.attr("y1", this.height - this.margeB)
-			.attr("y2", this.margeH)
-			.attr("class", "axe");
+			this.axey = this.svg.append("line")
+				.attr("x1", this.margeG)
+				.attr("x2", this.margeG)
+				.attr("y1", this.height - this.margeB)
+				.attr("y2", this.margeH)
+				.attr("class", "axe");
 
-		d3.selectAll(".axe").attr("style", "marker-end: url(#flechep);");
+			d3.selectAll(".axe").attr("style", "marker-end: url(#flechep);");
+		}
 	}
 
 	this.zoomX = function(xmin, xmax) {
