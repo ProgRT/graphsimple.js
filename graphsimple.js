@@ -123,6 +123,7 @@ function graphesimple(idsvg, conf) {
 	}
 
 	this.tracer = function(donnees, fonctionx, fonctiony){
+		this.axes()
 		this.donnees = donnees;
 		//this.setscale(this.donnees, fonctionx, fonctiony);
 
@@ -223,7 +224,6 @@ function graphesimple(idsvg, conf) {
 	}
 
 	this.axes = function(){
-
 		this.axex = this.svg.append("line")
 			.attr("x1", this.margeG)
 			.attr("x2", this.width - this.margeD)
