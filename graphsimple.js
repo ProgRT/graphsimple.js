@@ -232,7 +232,6 @@ function graphesimple(idsvg, conf) {
 				.attr("y1", this.height - this.margeB)
 				.attr("y2", this.height - this.margeB)
 				.attr("class", "axe");
-			console.log("Allo, le monde");
 
 			this.axey = this.svg.append("line")
 				.attr("x1", this.margeG)
