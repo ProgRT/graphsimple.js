@@ -12,13 +12,20 @@
 	}
 </style>
 
-<svg id="svg1" height="400"></svg>
+<svg id="svg1" height="200"></svg>
+<br/>
+<svg id="svg2" height="200"></svg>
 
 <script>
 	var lung = new ssv.PoumonCool();
 	var ventilator = new ssv.GenerateurPression();	
-	var graph = new graphesimple("#svg1")
 	var data = ventilator.ventiler(lung);
-	graph.setscale(data.ventd, function(d){return d.temps}, function(d){return d.debit})
-	graph.tracer(data.ventd, function(d){return d.temps}, function(d){return d.debit})
+
+	gs.graph("#svg1")
+		.setscale(data.ventd, function(d){return d.temps}, function(d){return d.debit})
+		.tracer(data.ventd, function(d){return d.temps}, function(d){return d.debit});
+</script>
+<script>
+
+	gs.quickGraph("#svg2", data.ventd, function(d){return d.temps}, function(d){return d.pco2});
 </script>

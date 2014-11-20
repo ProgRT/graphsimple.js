@@ -17,7 +17,7 @@ gs.stat = function(iddiv, respd){
 	$(iddiv).append(tableau);
 };
 
-function graphesimple(idsvg, conf) {
+gs.graph = function(idsvg, conf) {
 
 	this.idsvg = idsvg;
 	this.margeG = 20;
@@ -95,6 +95,8 @@ function graphesimple(idsvg, conf) {
 		this.echelley = d3.scale.linear()
 			.domain([this.ymin, this.ymax])
 			.range([this.height - (this.margeB + this.padB), this.margeH + this.padH]);
+
+		return this;
 	}
 
 	this.getlf = function(d, fx, fy){
@@ -132,12 +134,6 @@ function graphesimple(idsvg, conf) {
 
 		if (this.ligneZeroX == true) {this.tracerZeroX();}
 
-		//if (this.style == "fill"){
-		//	this.fill = this.svg.append("path")
-		//		.attr("d", this.lineFunction(this.donnees) + " L " + this.echellex(this.xmax) + " " + this.echelley(0) )
-		//		.attr("class", "fill");
-		//}
-
 		this.clip = this.defs.append("clipPath")
 			.attr("id", this.idsvg + "clip");
 		
@@ -150,23 +146,16 @@ function graphesimple(idsvg, conf) {
 		this.courbe = this.svg.append("path")
 			.attr("d", coord)
 			.style("clip-path", "url(#" + this.idsvg + "clip)");
-		return this.courbe;
+		return this;
 	}
 
 	this.ajouter = function(donnees, fonctionx, fonctiony){
 		this.donnees = donnees;
-		//this.setscale(this.donnees, fonctionx, fonctiony);
 
 		this.getlf(donnees, fonctionx, fonctiony);
 		var coord = this.coord(donnees, fonctionx, fonctiony);
 
 		if (this.ligneZeroX == true) {this.tracerZeroX();}
-
-		//if (this.style == "fill"){
-		//	this.fill = this.svg.append("path")
-		//		.attr("d", this.lineFunction(this.donnees) + " L " + this.echellex(this.xmax) + " " + this.echelley(0) )
-		//		.attr("class", "fill");
-		//}
 
 		this.clip = this.defs.append("clipPath")
 			.attr("id", this.idsvg + "clip");
@@ -184,7 +173,7 @@ function graphesimple(idsvg, conf) {
 		this.courbe2.transition().duration(this.durAnim).style("opacity", 1);
 		this.anotations.push(this.courbe2);
 
-		return this.courbe2;
+		return this;
 	}
 
 	this.anotter = function(texte, x, y){
@@ -199,6 +188,8 @@ function graphesimple(idsvg, conf) {
 
 		a.transition().duration(1500).style("opacity", "1");
 		this.anotations.push(a);
+
+		return this
 	}
 
 	this.raz = function(){
@@ -224,8 +215,8 @@ function graphesimple(idsvg, conf) {
 	}
 
 	this.axes = function(){
-		if(this.hasOwnProperty("axex")){console.log("Axe X déja présent");}
-		else{
+		//if(this.hasOwnProperty("axex")){console.log("Axe X déja présent");}
+		//else{
 			this.axex = this.svg.append("line")
 				.attr("x1", this.margeG)
 				.attr("x2", this.width - this.margeD)
@@ -241,7 +232,7 @@ function graphesimple(idsvg, conf) {
 				.attr("class", "axe");
 
 			d3.selectAll(".axe").attr("style", "marker-end: url(#flechep);");
-		}
+		//}
 	}
 
 	this.zoomX = function(xmin, xmax) {
@@ -337,6 +328,13 @@ function graphesimple(idsvg, conf) {
 			.text(id);
 		this.anotations.push(an);
 	}
+	return this;
+}
+
+gs.quickGraph = function(div, data, fx, fy){
+	gs.graph(div)
+		.setscale(data, fx, fy)
+		.tracer(data, fx, fy);
 }
 
 gs.reiley = function(idsvg, d){
