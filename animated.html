@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="graphsimple.js" charset="utf-8"></script>
+<script src="https://raw.githubusercontent.com/ProgRT/simvent.js/master/simvent.js" charset="utf-8"></script>
+
+<link rel="stylesheet" type="text/css" href="css/graphsimple-clear.css" charset="utf-8"/>
+
+<style>
+	body {
+		text-align:center;
+	}
+	.square {
+		width:400px;
+		height:400px;
+	}
+	.half {
+		width:600px;
+		height:180px;
+		border:1px dashed gray;
+	}
+	svg {
+		display:block:
+	}
+
+</style>
+
+<svg id="svg1" class="half"></svg><br>
+<svg id="svg2" class="half"></svg><br>
+<svg id="svg3" class="half"></svg><br>
+<svg id="svg4" class="half"></svg>
+
+<script>
+	var lung = new ssv.PoumonCool();
+	var ventilator = new ssv.GenerateurPression();	
+	var data = ventilator.ventiler(lung);
+
+	gs.graph("#svg1")
+		.setscale(data.ventd, function(d){return d.temps}, function(d){return d.pcirc})
+		.setidy("P circ")
+		.setidx("Time")
+		.animate(data.ventd, function(d){return d.temps}, function(d){return d.pcirc});
+	gs.graph("#svg2")
+		.setscale(data.ventd, function(d){return d.temps}, function(d){return d.debit})
+		.setidy("Flow")
+		.setidx("Time")
+		.animate(data.ventd, function(d){return d.temps}, function(d){return d.debit});
+	gs.graph("#svg3")
+		.setscale(data.ventd, function(d){return d.temps}, function(d){return d.vc})
+		.setidy("Vt")
+		.setidx("Time")
+		.animate(data.ventd, function(d){return d.temps}, function(d){return d.vc});
+	gs.graph("#svg4")
+		.setscale(data.ventd, function(d){return d.temps}, function(d){return d.pco2})
+		.setidy("CO₂")
+		.setidx("Time")
+		.animate(data.ventd, function(d){return d.temps}, function(d){return d.pco2});
+</script>

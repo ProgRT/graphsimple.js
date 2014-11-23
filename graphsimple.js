@@ -17,6 +17,15 @@ gs.stat = function(iddiv, respd){
 	$(iddiv).append(tableau);
 };
 
+gs.unSurCent = function(v,i){
+	if (i%10){
+		return 0;
+	}
+	else{
+		return 1;
+	}
+}
+
 gs.graph = function(idsvg, conf) {
 
 	this.idsvg = idsvg;
@@ -192,6 +201,38 @@ gs.graph = function(idsvg, conf) {
 		return this;
 	}
 
+	// To simulate continuous plotting like the one seen in medical ventilators,
+	// we plot the entire time serie, hidden by a zero width clip rectangle, and then
+	// gradually unhide it. Data must be downsampled to provide smooth results.
+	
+	this.animate = function(donnees, fonctionx, fonctiony){
+		this.axes()
+		sampled = donnees.filter(gs.unSurCent);
+		//this.donnees = donnees;
+		//this.setscale(this.donnees, fonctionx, fonctiony);
+
+		this.getlf(sampled, fonctionx, fonctiony);
+
+		if (this.ligneZeroX == true) {this.tracerZeroX();}
+
+		this.clip = this.defs.append("clipPath")
+			.attr("id", this.idsvg + "clip");
+		
+		this.clipRect = this.clip.append("rect")
+			.attr("x", this.margeG + this.padG)
+			.attr("y", this.margeH + this.padH - 2)
+			//.attr("width", this.width - (this.margeD + this.margeG + this.padD + this.padG) + 2)
+			.attr("width", 0)
+			.attr("height", this.height - (this.margeH + this.margeB + this.padH + this.padB));
+
+		var coord = this.lf(sampled, fonctionx, fonctiony);
+		this.courbe = this.svg.append("path")
+			.attr("d", coord)
+			.style("clip-path", "url(#" + this.idsvg + "clip)");
+		this.clipRect.transition().ease("linear").duration(10*sampled.length)
+			.attr("width", this.width - (this.margeD + this.margeG + this.padD + this.padG) + 2);
+		return this;
+	}
 	this.anotter = function(texte, x, y){
 		var a = this.svg.append("text")
 			.attr("x", this.echellex(x))
@@ -236,8 +277,10 @@ gs.graph = function(idsvg, conf) {
 			this.axex = this.svg.append("line")
 				.attr("x1", this.margeG)
 				.attr("x2", this.width - this.margeD)
-				.attr("y1", this.height - this.margeB)
-				.attr("y2", this.height - this.margeB)
+				//.attr("y1", this.height - this.margeB)
+				//.attr("y2", this.height - this.margeB)
+				.attr("y1", this.echelley(0))
+				.attr("y2", this.echelley(0))
 				.attr("class", "axe");
 
 			this.axey = this.svg.append("line")
@@ -295,6 +338,7 @@ gs.graph = function(idsvg, conf) {
 			.attr("y", this.height - (.2 * this.margeB))
 			.attr("text-anchor", "end")
 			.text(texte);
+		return this;
 	}
 
 	this.setidy = function(texte){
@@ -305,6 +349,8 @@ gs.graph = function(idsvg, conf) {
 			.attr("x", cx)
 			.attr("text-anchor", "start")
 			.text(texte)
+
+		return this;
 	}
 
 
