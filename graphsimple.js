@@ -34,8 +34,6 @@ gs.graph = function(idsvg, conf) {
 
 	this.svg = d3.select(idsvg);
 
-	this.svg.attr("width", 900);
-
 	this.animations = [];
 	this.anotations = [];
 	this.plages = [];
@@ -107,6 +105,7 @@ gs.graph = function(idsvg, conf) {
 			.interpolate("linear");
 	}
 
+	// Deprecated
 	this.coord = function(donnees, fx, fy){
 		//this.setscale(donnees, fx, fy);
 		this.getlf(donnees, fx, fy);
@@ -124,13 +123,30 @@ gs.graph = function(idsvg, conf) {
 		return coord;
 	}
 
+	this.ff = function(donnees, fx, fy){
+		//this.setscale(donnees, fx, fy);
+		this.getlf(donnees, fx, fy);
+		var coord = "M" 
+			+ this.echellex(this.xmin)
+			+","
+			+ this.echelley(0)
+			+"L" 
+			+ this.lf(this.donnees).slice(1)
+			+ "L" 
+			+ this.echellex(this.xmax)
+			+","
+			+ this.echelley(0)
+			;
+		return coord;
+	}
+
 	this.tracer = function(donnees, fonctionx, fonctiony){
 		this.axes()
 		this.donnees = donnees;
 		//this.setscale(this.donnees, fonctionx, fonctiony);
 
 		this.getlf(donnees, fonctionx, fonctiony);
-		var coord = this.coord(donnees, fonctionx, fonctiony);
+		var coord = this.lf(donnees, fonctionx, fonctiony);
 
 		if (this.ligneZeroX == true) {this.tracerZeroX();}
 
@@ -153,7 +169,7 @@ gs.graph = function(idsvg, conf) {
 		this.donnees = donnees;
 
 		this.getlf(donnees, fonctionx, fonctiony);
-		var coord = this.coord(donnees, fonctionx, fonctiony);
+		var coord = this.lf(donnees, fonctionx, fonctiony);
 
 		if (this.ligneZeroX == true) {this.tracerZeroX();}
 
