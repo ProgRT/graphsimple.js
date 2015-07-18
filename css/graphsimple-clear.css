@@ -9,7 +9,8 @@ TurquoiseCHUM	rgb(0,168,142)
 path {
 	fill:none;
 	stroke:black;
-	stroke-width:4px;
+	stroke-width:3px;
+	stroke-linejoin: round;
 }
 
 marker path, line {

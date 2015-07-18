@@ -29,6 +29,8 @@ function graphesimple(idsvg, conf) {
 	this.padD = 20;
 	this.padH = 30;
 	this.padB = 0;
+
+	this.padPlage = 5;
 	
 	this.durAnim = 1500;
 
@@ -258,7 +260,7 @@ function graphesimple(idsvg, conf) {
 
 	this.plagex = function(min, max, id){
 		var durAnim = 1000;
-		var pad = 10;
+		var pad = this.padPlage;
 		var plage = {};
 		plage.ligne = this.svg.append("line")
 			.attr("x1", this.echellex(min) + pad)
