@@ -17,7 +17,16 @@ gs.stat = function(iddiv, respd){
 	$(iddiv).append(tableau);
 };
 
-function graphesimple(idsvg, conf) {
+gs.unSurCent = function(v,i){
+	if (i%10){
+		return 0;
+	}
+	else{
+		return 1;
+	}
+}
+
+gs.graph = function(idsvg, conf) {
 
 	this.idsvg = idsvg;
 	this.margeG = 20;
@@ -35,8 +44,6 @@ function graphesimple(idsvg, conf) {
 	this.durAnim = 1500;
 
 	this.svg = d3.select(idsvg);
-
-	this.svg.attr("width", 900);
 
 	this.animations = [];
 	this.anotations = [];
@@ -97,6 +104,8 @@ function graphesimple(idsvg, conf) {
 		this.echelley = d3.scale.linear()
 			.domain([this.ymin, this.ymax])
 			.range([this.height - (this.margeB + this.padB), this.margeH + this.padH]);
+
+		return this;
 	}
 
 	this.getlf = function(d, fx, fy){
@@ -107,6 +116,7 @@ function graphesimple(idsvg, conf) {
 			.interpolate("linear");
 	}
 
+	// Deprecated
 	this.coord = function(donnees, fx, fy){
 		//this.setscale(donnees, fx, fy);
 		this.getlf(donnees, fx, fy);
@@ -124,21 +134,32 @@ function graphesimple(idsvg, conf) {
 		return coord;
 	}
 
+	this.ff = function(donnees, fx, fy){
+		//this.setscale(donnees, fx, fy);
+		this.getlf(donnees, fx, fy);
+		var coord = "M" 
+			+ this.echellex(this.xmin)
+			+","
+			+ this.echelley(0)
+			+"L" 
+			+ this.lf(this.donnees).slice(1)
+			+ "L" 
+			+ this.echellex(this.xmax)
+			+","
+			+ this.echelley(0)
+			;
+		return coord;
+	}
+
 	this.tracer = function(donnees, fonctionx, fonctiony){
 		this.axes()
 		this.donnees = donnees;
 		//this.setscale(this.donnees, fonctionx, fonctiony);
 
 		this.getlf(donnees, fonctionx, fonctiony);
-		var coord = this.coord(donnees, fonctionx, fonctiony);
+		var coord = this.lf(donnees, fonctionx, fonctiony);
 
 		if (this.ligneZeroX == true) {this.tracerZeroX();}
-
-		//if (this.style == "fill"){
-		//	this.fill = this.svg.append("path")
-		//		.attr("d", this.lineFunction(this.donnees) + " L " + this.echellex(this.xmax) + " " + this.echelley(0) )
-		//		.attr("class", "fill");
-		//}
 
 		this.clip = this.defs.append("clipPath")
 			.attr("id", this.idsvg + "clip");
@@ -152,23 +173,16 @@ function graphesimple(idsvg, conf) {
 		this.courbe = this.svg.append("path")
 			.attr("d", coord)
 			.style("clip-path", "url(#" + this.idsvg + "clip)");
-		return this.courbe;
+		return this;
 	}
 
 	this.ajouter = function(donnees, fonctionx, fonctiony){
 		this.donnees = donnees;
-		//this.setscale(this.donnees, fonctionx, fonctiony);
 
 		this.getlf(donnees, fonctionx, fonctiony);
-		var coord = this.coord(donnees, fonctionx, fonctiony);
+		var coord = this.lf(donnees, fonctionx, fonctiony);
 
 		if (this.ligneZeroX == true) {this.tracerZeroX();}
-
-		//if (this.style == "fill"){
-		//	this.fill = this.svg.append("path")
-		//		.attr("d", this.lineFunction(this.donnees) + " L " + this.echellex(this.xmax) + " " + this.echelley(0) )
-		//		.attr("class", "fill");
-		//}
 
 		this.clip = this.defs.append("clipPath")
 			.attr("id", this.idsvg + "clip");
@@ -186,9 +200,41 @@ function graphesimple(idsvg, conf) {
 		this.courbe2.transition().duration(this.durAnim).style("opacity", 1);
 		this.anotations.push(this.courbe2);
 
-		return this.courbe2;
+		return this;
 	}
 
+	// To simulate continuous plotting like the one seen in medical ventilators,
+	// we plot the entire time serie, hidden by a zero width clip rectangle, and then
+	// gradually unhide it. Data must be downsampled to provide smooth results.
+	
+	this.animate = function(donnees, fonctionx, fonctiony){
+		this.axes()
+		sampled = donnees.filter(gs.unSurCent);
+		//this.donnees = donnees;
+		//this.setscale(this.donnees, fonctionx, fonctiony);
+
+		this.getlf(sampled, fonctionx, fonctiony);
+
+		if (this.ligneZeroX == true) {this.tracerZeroX();}
+
+		this.clip = this.defs.append("clipPath")
+			.attr("id", this.idsvg + "clip");
+		
+		this.clipRect = this.clip.append("rect")
+			.attr("x", this.margeG + this.padG)
+			.attr("y", this.margeH + this.padH - 2)
+			//.attr("width", this.width - (this.margeD + this.margeG + this.padD + this.padG) + 2)
+			.attr("width", 0)
+			.attr("height", this.height - (this.margeH + this.margeB + this.padH + this.padB));
+
+		var coord = this.lf(sampled, fonctionx, fonctiony);
+		this.courbe = this.svg.append("path")
+			.attr("d", coord)
+			.style("clip-path", "url(#" + this.idsvg + "clip)");
+		this.clipRect.transition().ease("linear").duration(10*sampled.length)
+			.attr("width", this.width - (this.margeD + this.margeG + this.padD + this.padG) + 2);
+		return this;
+	}
 	this.anotter = function(texte, x, y){
 		var a = this.svg.append("text")
 			.attr("x", this.echellex(x))
@@ -201,6 +247,8 @@ function graphesimple(idsvg, conf) {
 
 		a.transition().duration(1500).style("opacity", "1");
 		this.anotations.push(a);
+
+		return this
 	}
 
 	this.raz = function(){
@@ -226,13 +274,15 @@ function graphesimple(idsvg, conf) {
 	}
 
 	this.axes = function(){
-		if(this.hasOwnProperty("axex")){console.log("Axe X déja présent");}
-		else{
+		//if(this.hasOwnProperty("axex")){console.log("Axe X déja présent");}
+		//else{
 			this.axex = this.svg.append("line")
 				.attr("x1", this.margeG)
 				.attr("x2", this.width - this.margeD)
-				.attr("y1", this.height - this.margeB)
-				.attr("y2", this.height - this.margeB)
+				//.attr("y1", this.height - this.margeB)
+				//.attr("y2", this.height - this.margeB)
+				.attr("y1", this.echelley(0))
+				.attr("y2", this.echelley(0))
 				.attr("class", "axe");
 
 			this.axey = this.svg.append("line")
@@ -243,7 +293,7 @@ function graphesimple(idsvg, conf) {
 				.attr("class", "axe");
 
 			d3.selectAll(".axe").attr("style", "marker-end: url(#flechep);");
-		}
+		//}
 	}
 
 	this.zoomX = function(xmin, xmax) {
@@ -290,6 +340,7 @@ function graphesimple(idsvg, conf) {
 			.attr("y", this.height - (.2 * this.margeB))
 			.attr("text-anchor", "end")
 			.text(texte);
+		return this;
 	}
 
 	this.setidy = function(texte){
@@ -300,6 +351,8 @@ function graphesimple(idsvg, conf) {
 			.attr("x", cx)
 			.attr("text-anchor", "start")
 			.text(texte)
+
+		return this;
 	}
 
 
@@ -339,6 +392,13 @@ function graphesimple(idsvg, conf) {
 			.text(id);
 		this.anotations.push(an);
 	}
+	return this;
+}
+
+gs.quickGraph = function(div, data, fx, fy){
+	gs.graph(div)
+		.setscale(data, fx, fy)
+		.tracer(data, fx, fy);
 }
 
 gs.reiley = function(idsvg, d){
