@@ -317,15 +317,15 @@ gs.graph = function(idsvg, conf) {
 			.attr("x2", this.echellex(min)+ pad + 6)
 			//.attr("y1", this.height - (this.margeB - 15))
 			//.attr("y2", this.height - (this.margeB - 15))
-			.attr("y1", this.height - this.margeB/2)
-			.attr("y2", this.height - this.margeB/2)
+			.attr("y1", this.height - this.margeB/1.5)
+			.attr("y2", this.height - this.margeB/1.5)
 			.attr("class", "axe")
 			.attr("style", "marker-start: url(#fleches);marker-end: url(#flechep);");
 			plage.ligne.transition().duration(durAnim).attr("x2", this.echellex(max)- pad);
 
 		plage.texte = this.svg.append("text")
 			.attr("x", this.echellex(min + (max - min)/2))
-			.attr("y", this.height - this.margeB/2 + 40)
+			.attr("y", this.height - this.margeB/2 + 20)
 			.attr("text-anchor", "middle")
 			.text(id)
 			.attr("opacity", 0)

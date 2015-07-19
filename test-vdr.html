@@ -12,7 +12,7 @@
 	}
 </style>
 
-<svg id="svg1" height="400"></svg>
+<svg id="svg1" height="300" width="600"></svg>
 
 <script>
 	function inspiExpi(timeData){
@@ -43,7 +43,7 @@
 	var ventilator = sv.VDR;	
 	ventilator.Tvent = 6;
 	
-	var graph = new graphesimple("#svg1")
+	var graph = new gs.graph("#svg1")
 	graph.margeB = 80;
 	
 	var data = ventilator.ventilate(lung);
