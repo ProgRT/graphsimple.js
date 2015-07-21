@@ -31,11 +31,11 @@
 	var ventilator = new ssv.GenerateurPression();	
 	var data = ventilator.ventiler(lung);
 
-	gs.graph("#svg1")
+	var gr1 = gs.graph("#svg1")
 		.setscale(data.ventd, function(d){return d.temps}, function(d){return d.debit})
 		.tracer(data.ventd, function(d){return d.temps}, function(d){return d.debit});
 </script>
 <script>
 
-	gs.quickGraph("#svg2", data.ventd, function(d){return d.temps}, function(d){return d.pco2});
+	var gr2 = gs.quickGraph("#svg2", data.ventd, function(d){return d.temps}, function(d){return d.pco2});
 </script>

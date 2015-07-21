@@ -35,22 +35,22 @@
 	var ventilator = new ssv.GenerateurPression();	
 	var data = ventilator.ventiler(lung);
 
-	gs.graph("#svg1")
+	var gr1 = gs.graph("#svg1")
 		.setscale(data.ventd, function(d){return d.temps}, function(d){return d.pcirc})
 		.setidy("P circ")
 		.setidx("Time")
 		.animate(data.ventd, function(d){return d.temps}, function(d){return d.pcirc});
-	gs.graph("#svg2")
+	var gr2 = gs.graph("#svg2")
 		.setscale(data.ventd, function(d){return d.temps}, function(d){return d.debit})
 		.setidy("Flow")
 		.setidx("Time")
 		.animate(data.ventd, function(d){return d.temps}, function(d){return d.debit});
-	gs.graph("#svg3")
+	var gr3 = gs.graph("#svg3")
 		.setscale(data.ventd, function(d){return d.temps}, function(d){return d.vc})
 		.setidy("Vt")
 		.setidx("Time")
 		.animate(data.ventd, function(d){return d.temps}, function(d){return d.vc});
-	gs.graph("#svg4")
+	var gr4 = gs.graph("#svg4")
 		.setscale(data.ventd, function(d){return d.temps}, function(d){return d.pco2})
 		.setidy("CO₂")
 		.setidx("Time")

@@ -162,17 +162,17 @@ gs.graph = function(idsvg, conf) {
 		if (this.ligneZeroX == true) {this.tracerZeroX();}
 
 		this.clip = this.defs.append("clipPath")
-			.attr("id", this.idsvg + "clip");
+			.attr("id", this.idsvg.replace("#","") + "clip");
 		
-		this.clip.append("rect")
+		this.clipRect = this.clip.append("rect")
 			.attr("x", this.margeG + this.padG)
 			.attr("y", this.margeH + this.padH - 2)
 			.attr("width", this.width - (this.margeD + this.margeG + this.padD + this.padG) + 2)
 			.attr("height", this.height - (this.margeH + this.margeB + this.padH + this.padB));
-
 		this.courbe = this.svg.append("path")
 			.attr("d", coord)
-			.style("clip-path", "url(#" + this.idsvg + "clip)");
+			.style("clip-path", "url(" + this.idsvg + "clip)")
+			;
 		return this;
 	}
 
@@ -187,7 +187,7 @@ gs.graph = function(idsvg, conf) {
 		this.clip = this.defs.append("clipPath")
 			.attr("id", this.idsvg + "clip");
 		
-		this.clip.append("rect")
+		this.clipRect = this.clip.append("rect")
 			.attr("x", this.margeG + this.padG)
 			.attr("y", this.margeH + this.padH - 2)
 			.attr("width", this.width - (this.margeD + this.margeG + this.padD + this.padG) + 2)
@@ -223,18 +223,28 @@ gs.graph = function(idsvg, conf) {
 		this.clipRect = this.clip.append("rect")
 			.attr("x", this.margeG + this.padG)
 			.attr("y", this.margeH + this.padH - 2)
-			//.attr("width", this.width - (this.margeD + this.margeG + this.padD + this.padG) + 2)
-			.attr("width", 0)
+			.attr("width", this.width - (this.margeD + this.margeG + this.padD + this.padG) + 2)
 			.attr("height", this.height - (this.margeH + this.margeB + this.padH + this.padB));
 
 		var coord = this.lf(sampled, fonctionx, fonctiony);
+
 		this.courbe = this.svg.append("path")
 			.attr("d", coord)
 			.style("clip-path", "url(#" + this.idsvg + "clip)");
 		this.clipRect.transition().ease("linear").duration(10*sampled.length)
-			.attr("width", this.width - (this.margeD + this.margeG + this.padD + this.padG) + 2);
+				.attr("width", this.width - (this.margeD + this.margeG + this.padD + this.padG) + 2);
 		return this;
 	}
+
+	this.animate2 = function(){
+
+		this.clipRect.attr("width", 0);
+
+		this.clipRect.transition().ease("linear").duration(4000)
+				.attr("width", this.width - (this.margeD + this.margeG + this.padD + this.padG) + 2);
+		return this;
+	}
+
 	this.anotter = function(texte, x, y){
 		var a = this.svg.append("text")
 			.attr("x", this.echellex(x))
@@ -396,7 +406,7 @@ gs.graph = function(idsvg, conf) {
 }
 
 gs.quickGraph = function(div, data, fx, fy){
-	gs.graph(div)
+	return gs.graph(div)
 		.setscale(data, fx, fy)
 		.tracer(data, fx, fy);
 }
