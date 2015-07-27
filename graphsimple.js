@@ -154,6 +154,8 @@ gs.graph = function(idsvg, conf) {
 	this.tracer = function(donnees, fonctionx, fonctiony){
 		this.axes()
 		this.donnees = donnees;
+		var times = this.donnees.map(function(d){return d.temps});
+		this.animTime = Math.max(...times) * 1000;
 		//this.setscale(this.donnees, fonctionx, fonctiony);
 
 		this.getlf(donnees, fonctionx, fonctiony);
@@ -207,6 +209,8 @@ gs.graph = function(idsvg, conf) {
 	// we plot the entire time serie, hidden by a zero width clip rectangle, and then
 	// gradually unhide it. Data must be downsampled to provide smooth results.
 	
+	/*
+	 * Deprecated
 	this.animate = function(donnees, fonctionx, fonctiony){
 		this.axes()
 		sampled = donnees.filter(gs.unSurCent);
@@ -235,12 +239,12 @@ gs.graph = function(idsvg, conf) {
 				.attr("width", this.width - (this.margeD + this.margeG + this.padD + this.padG) + 2);
 		return this;
 	}
+	*/
 
-	this.animate2 = function(){
-
+	this.animate = function(){
 		this.clipRect.attr("width", 0);
 
-		this.clipRect.transition().ease("linear").duration(4000)
+		this.clipRect.transition().ease("linear").duration(this.animTime)
 				.attr("width", this.width - (this.margeD + this.margeG + this.padD + this.padG) + 2);
 		return this;
 	}
