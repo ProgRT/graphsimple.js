@@ -284,8 +284,10 @@ gs.graph = function(idsvg, conf) {
 				.attr("class", "axe");
 
 			this.axey = this.svg.append("line")
-				.attr("x1", this.margeG)
-				.attr("x2", this.margeG)
+				//.attr("x1", this.margeG)
+				//.attr("x2", this.margeG)
+				.attr("x1", this.echellex(0))
+				.attr("x2", this.echellex(0))
 				.attr("y1", this.height - this.margeB)
 				.attr("y2", this.margeH)
 				.attr("class", "axe");
