@@ -162,7 +162,7 @@ gs.graph = function(idsvg, conf) {
 		this.clip = this.defs.append("clipPath")
 			.attr("id", this.idsvg + "clip");
 		
-		this.clip.append("rect")
+		this.clipRect = this.clip.append("rect")
 			.attr("x", this.margeG + this.padG)
 			.attr("y", this.margeH + this.padH - 2)
 			.attr("width", this.width - (this.margeD + this.margeG + this.padD + this.padG) + 2)
@@ -185,7 +185,7 @@ gs.graph = function(idsvg, conf) {
 		this.clip = this.defs.append("clipPath")
 			.attr("id", this.idsvg + "clip");
 		
-		this.clip.append("rect")
+		this.clipRect = this.clip.append("rect")
 			.attr("x", this.margeG + this.padG)
 			.attr("y", this.margeH + this.padH - 2)
 			.attr("width", this.width - (this.margeD + this.margeG + this.padD + this.padG) + 2)
@@ -205,31 +205,10 @@ gs.graph = function(idsvg, conf) {
 	// we plot the entire time serie, hidden by a zero width clip rectangle, and then
 	// gradually unhide it. Data must be downsampled to provide smooth results.
 	
-	this.animate = function(donnees, fonctionx, fonctiony){
-		this.axes()
-		sampled = donnees.filter(gs.unSurCent);
-		//this.donnees = donnees;
-		//this.setscale(this.donnees, fonctionx, fonctiony);
+	this.animate = function(duration){
+		this.clipRect.attr("width", 0);
 
-		this.getlf(sampled, fonctionx, fonctiony);
-
-		if (this.ligneZeroX == true) {this.tracerZeroX();}
-
-		this.clip = this.defs.append("clipPath")
-			.attr("id", this.idsvg + "clip");
-		
-		this.clipRect = this.clip.append("rect")
-			.attr("x", this.margeG + this.padG)
-			.attr("y", this.margeH + this.padH - 2)
-			//.attr("width", this.width - (this.margeD + this.margeG + this.padD + this.padG) + 2)
-			.attr("width", 0)
-			.attr("height", this.height - (this.margeH + this.margeB + this.padH + this.padB));
-
-		var coord = this.lf(sampled, fonctionx, fonctiony);
-		this.courbe = this.svg.append("path")
-			.attr("d", coord)
-			.style("clip-path", "url(#" + this.idsvg + "clip)");
-		this.clipRect.transition().ease("linear").duration(10*sampled.length)
+		this.clipRect.transition().ease("linear").duration(duration)
 			.attr("width", this.width - (this.margeD + this.margeG + this.padD + this.padG) + 2);
 		return this;
 	}
@@ -396,7 +375,7 @@ gs.graph = function(idsvg, conf) {
 }
 
 gs.quickGraph = function(div, data, fx, fy){
-	gs.graph(div)
+	return gs.graph(div)
 		.setscale(data, fx, fy)
 		.tracer(data, fx, fy);
 }
