@@ -22,9 +22,9 @@
 
 </style>
 
-<svg id="svg1"  class="square"></svg>
+<svg id="svg1"  class="square surface"></svg>
 <br/>
-<svg id="svg2" class="half"></svg>
+<svg id="svg2" class="half surface"></svg>
 
 <script>
 	var lung = new sv.SygLung();
@@ -33,7 +33,7 @@
 
 	gs.graph("#svg1")
 		.setscale(data.timeData, function(d){return d.time}, function(d){return d.Pao})
-		.tracer(data.ventd, function(d){return d.time}, function(d){return d.Pao});
+		.tracer(data.timeData, function(d){return d.time}, function(d){return d.Pao});
 </script>
 <script>
 

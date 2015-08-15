@@ -183,17 +183,18 @@ gs.graph = function(idsvg, conf) {
 			.attr("y", this.margeH + this.padH - 2)
 			.attr("width", this.width - (this.margeD + this.margeG + this.padD + this.padG) + 2)
 			.attr("height", this.height - (this.margeH + this.margeB + this.padH + this.padB));
-		
+
+		this.surface = this.svg.append("path")
+			.attr("d", surface)
+			.attr("class", "surface")
+			.style("clip-path", "url(" + this.idsvg + "clip)")
+			;	
 		this.courbe = this.svg.append("path")
 			.attr("d", coord)
 			.style("clip-path", "url(" + this.idsvg + "clip)")
 			;
 
-		this.surface = this.svg.append("path")
-			.attr("d", surface)
-			.attr("classe", "surface")
-			.style("clip-path", "url(" + this.idsvg + "clip)")
-			;
+
 
 		return this;
 	}

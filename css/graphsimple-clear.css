@@ -5,6 +5,14 @@ path {
 	stroke-linejoin: round;
 }
 
+
+path.surface {
+stroke: none;
+}
+svg.surface path.surface {
+fill: hsl(0, 0%, 75%)
+}
+
 marker path, line {
 	stroke-width:2px;
 	stroke: black;
