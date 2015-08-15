@@ -2,7 +2,7 @@
 <meta charset="utf-8">
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script src="graphsimple.js" charset="utf-8"></script>
-<script src="https://raw.githubusercontent.com/ProgRT/simvent.js/master/simvent.js" charset="utf-8"></script>
+<script src="https://rawgit.com/ProgRT/simvent.js/master/simvent.js" charset="utf-8"></script>
 
 <link rel="stylesheet" type="text/css" href="css/graphsimple-clear.css" charset="utf-8"/>
 
@@ -31,28 +31,44 @@
 <svg id="svg4" class="half"></svg>
 
 <script>
-	var lung = new ssv.PoumonCool();
-	var ventilator = new ssv.GenerateurPression();	
-	var data = ventilator.ventiler(lung);
+	var lung = new sv.SimpleLung();
+	var ventilator = new sv.PresureControler();	
+	ventilator.Tsampl = 0.01
+	var data = ventilator.ventilate(lung);
 
-	var gr1 = gs.graph("#svg1")
-		.setscale(data.ventd, function(d){return d.temps}, function(d){return d.pcirc})
+	fx = function(d){return d.time}
+
+	var gr1 = new gs.graph("#svg1")
+		.setscale(data.timeData, fx, function(d){return d.Pao})
 		.setidy("P circ")
 		.setidx("Time")
-		.animate(data.ventd, function(d){return d.temps}, function(d){return d.pcirc});
-	var gr2 = gs.graph("#svg2")
-		.setscale(data.ventd, function(d){return d.temps}, function(d){return d.debit})
+		.tracer(data.timeData, fx, function(d){return d.Pao});
+	var gr2 = new gs.graph("#svg2")
+		.setscale(data.timeData, fx, function(d){return d.Flung})
 		.setidy("Flow")
 		.setidx("Time")
-		.animate(data.ventd, function(d){return d.temps}, function(d){return d.debit});
-	var gr3 = gs.graph("#svg3")
-		.setscale(data.ventd, function(d){return d.temps}, function(d){return d.vc})
+		.tracer(data.timeData, fx, function(d){return d.Flung});
+	var gr3 = new gs.graph("#svg3")
+		.setscale(data.timeData, fx, function(d){return d.Vt})
 		.setidy("Vt")
 		.setidx("Time")
-		.animate(data.ventd, function(d){return d.temps}, function(d){return d.vc});
-	var gr4 = gs.graph("#svg4")
-		.setscale(data.ventd, function(d){return d.temps}, function(d){return d.pco2})
+		.tracer(data.timeData, fx, function(d){return d.Vt});
+	var gr4 = new gs.graph("#svg4")
+		.setscale(data.timeData, fx, function(d){return d.PCO2})
 		.setidy("CO₂")
 		.setidx("Time")
-		.animate(data.ventd, function(d){return d.temps}, function(d){return d.pco2});
+		.tracer(data.timeData, fx, function(d){return d.PCO2});
+
+	duration = ventilator.nbcycles * ventilator.Ti * 3000;
+
+	animation = function(element){
+		console.log(element);
+	}
+
+	var tableau = [gr1, gr2, gr3, gr4];
+
+	for( i in tableau){
+		tableau[i].animate(duration);
+		//setInterval(tableau[i].animate, duration + 50);
+	}
 </script>

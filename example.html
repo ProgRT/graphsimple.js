@@ -2,7 +2,7 @@
 
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script src="graphsimple.js" charset="utf-8"></script>
-<script src="https://raw.githubusercontent.com/ProgRT/simvent.js/master/simvent.js" charset="utf-8"></script>
+<script src="https://rawgit.com/ProgRT/simvent.js/master/simvent.js" charset="utf-8"></script>
 
 <link rel="stylesheet" type="text/css" href="css/graphsimple-clear.css" charset="utf-8"/>
 
@@ -27,13 +27,15 @@
 <svg id="svg2" class="half"></svg>
 
 <script>
-	var lung = new ssv.PoumonCool();
-	var ventilator = new ssv.GenerateurPression();	
-	var data = ventilator.ventiler(lung);
+	var lung = new sv.SygLung();
+	var ventilator = new sv.PVCurve();	
+	var data = ventilator.ventilate(lung);
 
-	var gr1 = new gs.graph("#svg1")
-		.setscale(data.ventd, function(d){return d.temps}, function(d){return d.debit})
-		.tracer(data.ventd, function(d){return d.temps}, function(d){return d.debit});
+	gs.graph("#svg1")
+		.setscale(data.timeData, function(d){return d.time}, function(d){return d.Pao})
+		.tracer(data.ventd, function(d){return d.time}, function(d){return d.Pao});
+</script>
+<script>
 
-	var gr2 = new gs.quickGraph("#svg2", data.ventd, function(d){return d.temps}, function(d){return d.pco2});
+	gs.quickGraph("#svg2", data.timeData, function(d){return d.Palv}, function(d){return d.Vt});
 </script>
