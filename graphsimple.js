@@ -116,6 +116,16 @@ gs.graph = function(idsvg, conf) {
 			.interpolate("linear");
 	}
 
+	this.getsf = function(d, fx, fy){
+
+		this.sf = d3.svg.area()
+			.x(function(d) {return this.echellex(fx(d))})
+			.y0(function(d) {return this.echelley(0)})
+			.y1(function(d) {return this.echelley(fy(d))})
+			.interpolate("linear");
+	}
+
+
 	// Deprecated
 	this.coord = function(donnees, fx, fy){
 		//this.setscale(donnees, fx, fy);
@@ -159,7 +169,9 @@ gs.graph = function(idsvg, conf) {
 		//this.setscale(this.donnees, fonctionx, fonctiony);
 
 		this.getlf(donnees, fonctionx, fonctiony);
+		this.getsf(donnees, fonctionx, fonctiony);
 		var coord = this.lf(donnees, fonctionx, fonctiony);
+		var surface = this.sf(donnees, fonctionx, fonctiony);
 
 		if (this.ligneZeroX == true) {this.tracerZeroX();}
 
@@ -171,10 +183,18 @@ gs.graph = function(idsvg, conf) {
 			.attr("y", this.margeH + this.padH - 2)
 			.attr("width", this.width - (this.margeD + this.margeG + this.padD + this.padG) + 2)
 			.attr("height", this.height - (this.margeH + this.margeB + this.padH + this.padB));
+		
 		this.courbe = this.svg.append("path")
 			.attr("d", coord)
 			.style("clip-path", "url(" + this.idsvg + "clip)")
 			;
+
+		this.surface = this.svg.append("path")
+			.attr("d", surface)
+			.attr("classe", "surface")
+			.style("clip-path", "url(" + this.idsvg + "clip)")
+			;
+
 		return this;
 	}
 
