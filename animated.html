@@ -59,16 +59,4 @@
 		.setidx("Time")
 		.tracer(data.timeData, fx, function(d){return d.PCO2});
 
-	duration = ventilator.nbcycles * ventilator.Ti * 3000;
-
-	animation = function(element){
-		console.log(element);
-	}
-
-	var tableau = [gr1, gr2, gr3, gr4];
-
-	for( i in tableau){
-		tableau[i].animate(duration);
-		//setInterval(tableau[i].animate, duration + 50);
-	}
 </script>

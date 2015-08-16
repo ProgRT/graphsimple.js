@@ -459,3 +459,9 @@ gs.reiley = function(idsvg, d){
 			.style("fill", "white");
 
 }
+
+gs.randomHue = function(saturation, lightnes){
+	var hue = Math.random() * 360;
+	var color = "hsl( " + hue + ", " + saturation + "%, " + lightnes + "% )";
+	return color;
+}
