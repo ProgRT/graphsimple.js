@@ -30,12 +30,14 @@
 	var lung = new sv.SygLung();
 	var ventilator = new sv.PVCurve();	
 	var data = ventilator.ventilate(lung);
+//	data = data.timeData.filter(function(d,i){return d[i].Palv > d[i-1].Palv});
+	data = data.timeData.filter(function(d,i){return true});
 
 	gs.graph("#svg1")
-		.setscale(data.timeData, function(d){return d.time}, function(d){return d.Pao})
-		.tracer(data.timeData, function(d){return d.time}, function(d){return d.Pao});
+		.setscale(data, function(d){return d.time}, function(d){return d.Palv})
+		.tracer(data, function(d){return d.time}, function(d){return d.Palv});
 </script>
 <script>
 
-	gs.quickGraph("#svg2", data.timeData, function(d){return d.Palv}, function(d){return d.Vt});
+	gs.quickGraph("#svg2", data, function(d){return d.Palv}, function(d){return d.Vt});
 </script>
