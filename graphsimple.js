@@ -162,7 +162,6 @@ gs.graph = function(idsvg, conf) {
 	}
 
 	this.tracer = function(donnees, fonctionx, fonctiony){
-		this.axes()
 		this.donnees = donnees;
 		var times = this.donnees.map(function(d){return d.Time});
 		this.animTime = Math.max(...times) * 1000;
@@ -189,6 +188,7 @@ gs.graph = function(idsvg, conf) {
 			.attr("class", "surface")
 			.style("clip-path", "url(" + this.idsvg + "clip)")
 			;	
+		this.axes()
 		this.courbe = this.svg.append("path")
 			.attr("d", coord)
 			.style("clip-path", "url(" + this.idsvg + "clip)")

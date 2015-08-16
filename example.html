@@ -29,9 +29,8 @@
 <script>
 	var lung = new sv.SygLung();
 	var ventilator = new sv.PVCurve();	
-	var data = ventilator.ventilate(lung);
-//	data = data.timeData.filter(function(d,i){return d[i].Palv > d[i-1].Palv});
-	data = data.timeData.filter(function(d,i){return true});
+	var data = ventilator.ventilate(lung).timeData;
+	//data = data.filter(function(d, i){return i > 0 && data[i].Palv > data[i -1].Palv})
 
 	gs.graph("#svg1")
 		.setscale(data, function(d){return d.time}, function(d){return d.Palv})
