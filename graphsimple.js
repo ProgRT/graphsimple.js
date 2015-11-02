@@ -92,7 +92,7 @@ gs.graph = function(idsvg, conf) {
 		.attr("d", "M3,5 L9,10 L3,15");
 
 	this.setscale = function(d, fx, fy){
-		this.ymin = d3.min(d, fy);
+		this.ymin = Math.min(d3.min(d, fy),0);
 		this.ymax = d3.max(d, fy);
 		this.xmin = d3.min(d, fx);
 		this.xmax = d3.max(d, fx);
@@ -181,14 +181,17 @@ gs.graph = function(idsvg, conf) {
 			.attr("x", this.margeG + this.padG)
 			.attr("y", this.margeH + this.padH - 2)
 			.attr("width", this.width - (this.margeD + this.margeG + this.padD + this.padG) + 2)
-			.attr("height", this.height - (this.margeH + this.margeB + this.padH + this.padB));
+			.attr("height", this.height - (this.margeH + this.margeB + this.padH + this.padB) + 2)
+			;
 
 		this.surface = this.svg.append("path")
 			.attr("d", surface)
 			.attr("class", "surface")
 			.style("clip-path", "url(" + this.idsvg + "clip)")
 			;	
+
 		this.axes()
+
 		this.courbe = this.svg.append("path")
 			.attr("d", coord)
 			.style("clip-path", "url(" + this.idsvg + "clip)")
