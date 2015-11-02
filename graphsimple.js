@@ -92,6 +92,7 @@ gs.graph = function(idsvg, conf) {
 		.attr("d", "M3,5 L9,10 L3,15");
 
 	this.setscale = function(d, fx, fy){
+		//this.ymin = Math.min(d3.min(d, fy),0);
 		this.ymin = d3.min(d, fy);
 		this.ymax = d3.max(d, fy);
 		this.xmin = d3.min(d, fx);
