@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<meta charset="utf-8"/>
 
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script src="graphsimple.js" charset="utf-8"></script>
@@ -15,28 +16,33 @@
 		height:400px;
 	}
 	.half {
-		width:600px;
-		height:200px;
+		width: 600px;
+		height: 200px;
 		border:1px dashed gray;
 	}
 
+
 </style>
 
-<svg id="svg1"  class="square surface"></svg>
+<svg id="svg1"  class="half surface"></svg>
 <br/>
 <svg id="svg2" class="half surface"></svg>
+<div id="container"></div>
 
 <script>
-	var lung = new sv.SygLung();
-	var ventilator = new sv.PVCurve();	
+
+	var lung = new sv.SimpleLung();
+	var ventilator = new sv.FlowControler();	
 	var data = ventilator.ventilate(lung).timeData;
-	//data = data.filter(function(d, i){return i > 0 && data[i].Palv > data[i -1].Palv})
+	
+	function fx(d){return d.time}
+	function fy(d){return d.Flung}
 
-	gs.graph("#svg1")
-		.setscale(data, function(d){return d.time}, function(d){return d.Palv})
-		.tracer(data, function(d){return d.time}, function(d){return d.Palv});
-</script>
-<script>
+	// gs.graph("#svg1")
+	//	.setscale(data, function(d){return d.time}, function(d){return d.Palv})
+	//	.tracer(data, function(d){return d.time}, function(d){return d.Palv});
 
-	gs.quickGraph("#svg2", data, function(d){return d.Palv}, function(d){return d.Vt});
+	// gs.quickGraph("#svg2", data, function(d){return d.Palv}, function(d){return d.Vt});
+
+	var graph = gs.addGraph("container", data, fx, fy);
 </script>

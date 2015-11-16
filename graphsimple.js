@@ -127,6 +127,7 @@ gs.graph = function(idsvg, conf) {
 
 
 	// Deprecated
+	/*
 	this.coord = function(donnees, fx, fy){
 		//this.setscale(donnees, fx, fy);
 		this.getlf(donnees, fx, fy);
@@ -143,7 +144,7 @@ gs.graph = function(idsvg, conf) {
 			;
 		return coord;
 	}
-
+*/
 	this.ff = function(donnees, fx, fy){
 		//this.setscale(donnees, fx, fy);
 		this.getlf(donnees, fx, fy);
@@ -467,4 +468,13 @@ gs.randomHue = function(saturation, lightnes){
 	var hue = Math.random() * 360;
 	var color = "hsl( " + hue + ", " + saturation + "%, " + lightnes + "% )";
 	return color;
+}
+gs.addGraph = function(target, data, fx, fy){
+	var numSVG = document.getElementsByTagName("svg").length + 1; 
+	var newSVGid = target + "SVG" + numSVG;
+	var newsvg = d3.select("#" + target)
+		.append("svg")
+		.attr("class", "half")
+		.attr("id", newSVGid);
+	return gs.quickGraph("#" + newSVGid, data, fx, fy);
 }
