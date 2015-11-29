@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <meta charset="utf-8"/>
 
-<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<!--script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script-->
+<script src="/home/user1/Librairies JavaScript/js/d3.min.js" charset="utf-8"></script>
 <script src="graphsimple.js" charset="utf-8"></script>
 <script src="https://rawgit.com/ProgRT/simvent.js/master/simvent.js" charset="utf-8"></script>
 
-<link rel="stylesheet" type="text/css" href="css/graphsimple-clear.css" charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="css/graphsimple-scale.css" charset="utf-8"/>
 
 <style>
 	body {
@@ -17,17 +18,16 @@
 	}
 	.half {
 		width: 600px;
-		height: 200px;
+		height: 600px;
 		border:1px dashed gray;
 	}
 
 
 </style>
 
-<svg id="svg1"  class="half surface"></svg>
-<br/>
-<svg id="svg2" class="half surface"></svg>
-<div id="container"></div>
+<div id="container">
+Allo, le monde !
+</div>
 
 <script>
 
@@ -36,13 +36,15 @@
 	var data = ventilator.ventilate(lung).timeData;
 	
 	function fx(d){return d.time}
-	function fy(d){return d.Flung}
+	function fy(d){return d.Vt}
+	var conf = {
+		margeG: 40,
+		padD: 0,
+		padH: 0
+	}
 
-	// gs.graph("#svg1")
-	//	.setscale(data, function(d){return d.time}, function(d){return d.Palv})
-	//	.tracer(data, function(d){return d.time}, function(d){return d.Palv});
-
-	// gs.quickGraph("#svg2", data, function(d){return d.Palv}, function(d){return d.Vt});
-
-	var graph = gs.addGraph("container", data, fx, fy);
+	gs.graph.margeG = 40;
+	var graph = gs.addGraph("container", data, fx, fy, conf)
+		.drawGridX()
+		.drawGridY();
 </script>

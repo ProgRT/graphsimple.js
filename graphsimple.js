@@ -43,6 +43,11 @@ gs.graph = function(idsvg, conf) {
 	
 	this.durAnim = 1500;
 
+	for(index in conf){
+		this[index] = conf[index];
+	}
+
+
 	this.svg = d3.select(idsvg);
 
 	this.animations = [];
@@ -126,25 +131,6 @@ gs.graph = function(idsvg, conf) {
 	}
 
 
-	// Deprecated
-	/*
-	this.coord = function(donnees, fx, fy){
-		//this.setscale(donnees, fx, fy);
-		this.getlf(donnees, fx, fy);
-		var coord = "M" 
-			+ this.echellex(this.xmin)
-			+","
-			+ this.echelley(0)
-			+"L" 
-			+ this.lf(this.donnees).slice(1)
-			//+ "L" 
-			//+ this.echellex(this.xmax)
-			//+","
-			//+ this.echelley(0)
-			;
-		return coord;
-	}
-*/
 	this.ff = function(donnees, fx, fy){
 		//this.setscale(donnees, fx, fy);
 		this.getlf(donnees, fx, fy);
@@ -230,6 +216,7 @@ gs.graph = function(idsvg, conf) {
 		return this;
 	}
 
+
 	// To simulate continuous plotting like the one seen in medical ventilators,
 	// we plot the entire time serie, hidden by a zero width clip rectangle, and then
 	// gradually unhide it.
@@ -255,7 +242,7 @@ gs.graph = function(idsvg, conf) {
 		a.transition().duration(1500).style("opacity", "1");
 		this.anotations.push(a);
 
-		return this
+		return this;
 	}
 
 	this.raz = function(){
@@ -401,11 +388,69 @@ gs.graph = function(idsvg, conf) {
 			.text(id);
 		this.anotations.push(an);
 	}
+	this.drawGridY = function(){
+
+		this.gridY = d3.svg.axis()
+			.orient("left")
+			.tickSize(- (this.width - this.margeG - this.margeD))
+			.scale(this.echelley);
+
+		this.gridYGroup = this.svg.append("g")
+			.attr("class", "gridY")
+			.attr("transform", "translate(" + this.echellex(this.xmin) + ", 0)")
+			.call(this.gridY)
+			;
+
+		return this;
+	}
+
+	this.drawGridX = function(){
+
+		this.gridX = d3.svg.axis()
+			.tickSize(- (this.height - this.margeH - this.margeB))
+			.scale(this.echellex);
+
+		this.gridXGroup = this.svg.append("g")
+			.attr("class", "gridX")
+			.attr("transform", "translate(0, " + this.echelley(this.ymin) + ")")
+			.call(this.gridX)
+			;
+
+		return this;
+	}
+	this.drawGradY = function(){
+
+		this.gradY = d3.svg.axis()
+			.orient("left")
+			.scale(this.echelley);
+
+		this.gradYGroup = this.svg.append("g")
+			.attr("class", "gradY")
+			.attr("transform", "translate(" + this.echellex(this.xmin) + ", 0)")
+			.call(this.gradY)
+			;
+
+		return this;
+	}
+
+	this.drawGradX = function(){
+
+		this.gradX = d3.svg.axis()
+			.scale(this.echellex);
+
+		this.gradXGroup = this.svg.append("g")
+			.attr("class", "gradX")
+			.attr("transform", "translate(0, " + this.echelley(this.ymin) + ")")
+			.call(this.gradX)
+			;
+
+		return this;
+	}
 	return this;
 }
 
-gs.quickGraph = function(div, data, fx, fy){
-	return gs.graph(div)
+gs.quickGraph = function(div, data, fx, fy, conf){
+	return gs.graph(div, conf)
 		.setscale(data, fx, fy)
 		.tracer(data, fx, fy);
 }
@@ -469,12 +514,12 @@ gs.randomHue = function(saturation, lightnes){
 	var color = "hsl( " + hue + ", " + saturation + "%, " + lightnes + "% )";
 	return color;
 }
-gs.addGraph = function(target, data, fx, fy){
+gs.addGraph = function(target, data, fx, fy, conf){
 	var numSVG = document.getElementsByTagName("svg").length + 1; 
 	var newSVGid = target + "SVG" + numSVG;
 	var newsvg = d3.select("#" + target)
 		.append("svg")
 		.attr("class", "half")
 		.attr("id", newSVGid);
-	return gs.quickGraph("#" + newSVGid, data, fx, fy);
+	return gs.quickGraph("#" + newSVGid, data, fx, fy, conf);
 }
