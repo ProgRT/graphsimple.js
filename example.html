@@ -18,7 +18,9 @@
 	}
 	.half {
 		width: 600px;
-		height: 600px;
+		height: 300px;
+	}
+	svg {
 		border:1px dashed gray;
 	}
 
@@ -26,7 +28,6 @@
 </style>
 
 <div id="container">
-Allo, le monde !
 </div>
 
 <script>
@@ -38,7 +39,10 @@ Allo, le monde !
 	function fx(d){return d.time}
 	function fy(d){return d.Vt}
 	var conf = {
-		margeG: 40,
+		class: "square",
+		margeG: 60,
+		margeD: 10,
+		margeB: 40,
 		padD: 0,
 		padH: 0
 	}

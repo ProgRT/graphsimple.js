@@ -519,7 +519,9 @@ gs.addGraph = function(target, data, fx, fy, conf){
 	var newSVGid = target + "SVG" + numSVG;
 	var newsvg = d3.select("#" + target)
 		.append("svg")
-		.attr("class", "half")
 		.attr("id", newSVGid);
+	if (typeof conf.class != "undefined"){
+		newsvg.attr("class", conf.class);
+	}
 	return gs.quickGraph("#" + newSVGid, data, fx, fy, conf);
 }
