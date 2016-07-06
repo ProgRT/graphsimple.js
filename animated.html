@@ -15,8 +15,8 @@
 		height:400px;
 	}
 	.half {
-		width:600px;
-		height:180px;
+		width:700px;
+		height:250px;
 		border:1px dashed gray;
 	}
 	svg {
@@ -32,8 +32,10 @@
 
 <script>
 	var lung = new sv.SimpleLung();
-	var ventilator = new sv.PresureControler();	
-	ventilator.Tsampl = 0.01
+	var ventilator = new sv.VDR();	
+	ventilator.Tsampl = 0.001;
+	ventilator.CPR=1.2;
+	ventilator.lowPass=4;
 	var data = ventilator.ventilate(lung);
 
 	fx = function(d){return d.time}
@@ -41,22 +43,22 @@
 	var gr1 = new gs.graph("#svg1")
 		.setscale(data.timeData, fx, function(d){return d.Pao})
 		.setidy("P circ")
-		.setidx("Time")
+		.setidx("Temps")
 		.tracer(data.timeData, fx, function(d){return d.Pao});
 	var gr2 = new gs.graph("#svg2")
 		.setscale(data.timeData, fx, function(d){return d.Flung})
 		.setidy("Flow")
-		.setidx("Time")
+		.setidx("Temps")
 		.tracer(data.timeData, fx, function(d){return d.Flung});
 	var gr3 = new gs.graph("#svg3")
 		.setscale(data.timeData, fx, function(d){return d.Vt})
 		.setidy("Vt")
-		.setidx("Time")
+		.setidx("Temps")
 		.tracer(data.timeData, fx, function(d){return d.Vt});
 	var gr4 = new gs.graph("#svg4")
 		.setscale(data.timeData, fx, function(d){return d.PCO2})
 		.setidy("CO₂")
-		.setidx("Time")
+		.setidx("Temps")
 		.tracer(data.timeData, fx, function(d){return d.PCO2});
 
 </script>

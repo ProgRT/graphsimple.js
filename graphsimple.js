@@ -521,7 +521,10 @@ gs.addGraph = function(target, data, fx, fy, conf){
 		.append("svg")
 		.attr("id", newSVGid);
 	if (typeof conf.class != "undefined"){
-		newsvg.attr("class", conf.class);
+		newsvg.attr("class", "gs " + conf.class);
+	}
+	else {
+		newsvg.attr("class", "gs");
 	}
 	return gs.quickGraph("#" + newSVGid, data, fx, fy, conf);
 }
