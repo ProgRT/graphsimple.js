@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-<script src="graphsimple.js" charset="utf-8"></script>
+<script src="../graphsimple.js" charset="utf-8"></script>
 <script src="https://rawgit.com/ProgRT/simvent.js/master/simvent.js" charset="utf-8"></script>
 
-<link rel="stylesheet" type="text/css" href="css/graphsimple-clear.css" charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="../css/graphsimple-clear.css" charset="utf-8"/>
 
 <style>
 	body {
@@ -32,10 +32,7 @@
 
 <script>
 	var lung = new sv.SimpleLung();
-	var ventilator = new sv.VDR();	
-	ventilator.Tsampl = 0.001;
-	ventilator.CPR=1.2;
-	ventilator.lowPass=4;
+	var ventilator = new sv.PresureControler();	
 	var data = ventilator.ventilate(lung);
 
 	fx = function(d){return d.time}

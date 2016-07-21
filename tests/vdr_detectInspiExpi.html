@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-<script src="graphsimple.js" charset="utf-8"></script>
-<script src="https://raw.githubusercontent.com/ProgRT/VDR.js/master/simvent.js" charset="utf-8"></script>
+<script src="../graphsimple.js" charset="utf-8"></script>
+<script src="../../simvent.js/simvent.js" charset="utf-8"></script>
 
-<link rel="stylesheet" type="text/css" href="css/graphsimple-clear.css" charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="../css/graphsimple-clear.css" charset="utf-8"/>
 
 <style>
 	body {
@@ -38,9 +38,10 @@
 
 		return {"inspirations":inspirations, "expirations":expirations};
 	}
+
 	var lung = new sv.SimpleLung();
 
-	var ventilator = sv.VDR;	
+	var ventilator = new sv.VDR;	
 	ventilator.Tvent = 6;
 	
 	var graph = new gs.graph("#svg1")
@@ -53,5 +54,5 @@
 	graph.setscale(data.timeData, function(d){return d.time}, function(d){return d.Pao})
 	graph.tracer(data.timeData, function(d){return d.time}, function(d){return d.Pao})
 	graph.plagex(shift.inspirations[0], shift.expirations[0],"Inspiration");
-	graph.plagex(shift.expirations[0],shift.inspirations[1], "Expiration");
+	//graph.plagex(shift.expirations[0],shift.inspirations[1], "Expiration");
 </script>
