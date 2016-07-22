@@ -158,7 +158,9 @@ gs.graph = function(idsvg, conf) {
 		this.getsf(donnees, fonctionx, fonctiony);
 		var coord = this.lf(donnees, fonctionx, fonctiony);
 		var surface = this.sf(donnees, fonctionx, fonctiony);
-
+		
+		this.drawGridY();
+		this.drawGridX();
 		if (this.ligneZeroX == true) {this.tracerZeroX();}
 
 		this.clip = this.defs.append("clipPath")
