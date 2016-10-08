@@ -1,0 +1,30 @@
+.gs path {
+  fill: none;
+  stroke: black;
+  stroke-width: 1px;
+  stroke-linejoin: round; }
+  .gs path.surface {
+    fill: gray;
+    opacity: 0.5; }
+.gs marker path {
+  stroke-width: 2px;
+  stroke: black;
+  fill: none; }
+.gs text {
+  fill: black; }
+  .gs text.anottation {
+    font-size: 40px; }
+.gs .help {
+  stroke-dasharray: 7 7; }
+.gs .axe {
+  display: none; }
+.gs .gridX line, .gs .gridY line {
+  stroke-width: 1px;
+  stroke: silver;
+  stroke-dasharray: 5 5; }
+.gs .gridX text {
+  transform: translate(0, 8px); }
+.gs .gridY text {
+  transform: translate(-8px, 0); }
+
+/*# sourceMappingURL=gs-scale-fill-clear.css.map */
