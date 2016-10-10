@@ -20,8 +20,8 @@
 		height:400px;
 	}
 	.half {
-		width: 600px;
-		height: 300px;
+		width: 400px;
+		height: 200px;
 	}
 
 
@@ -37,9 +37,11 @@
 	var data = ventilator.ventilate(lung).timeData;
 	
 	function fx(d){return d.time}
-	function fy(d){return d.Vt}
+	function fy(d){return d.Flung}
+	function fy2(d){return d.Pao}
+
 	var conf = {
-		class: "square",
+		class: "half",
 		margeG: 60,
 		margeD: 10,
 		margeB: 40,
@@ -48,4 +50,5 @@
 	}
 
 	var graph = gs.addGraph("container", data, fx, fy, conf);
+	var graph2 = gs.addGraph("container", data, fx, fy2, conf);
 </script>
