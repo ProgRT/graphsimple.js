@@ -35,8 +35,8 @@ gs.graph = function(idsvg, conf) {
 	this.margeB = 50;
 
 	this.padG = 0;
-	this.padD = 20;
-	this.padH = 30;
+	this.padD = 0;
+	this.padH = 0;
 	this.padB = 0;
 
 	this.padPlage = 5;
@@ -131,28 +131,10 @@ gs.graph = function(idsvg, conf) {
 	}
 
 
-	this.ff = function(donnees, fx, fy){
-		//this.setscale(donnees, fx, fy);
-		this.getlf(donnees, fx, fy);
-		var coord = "M" 
-			+ this.echellex(this.xmin)
-			+","
-			+ this.echelley(0)
-			+"L" 
-			+ this.lf(this.donnees).slice(1)
-			+ "L" 
-			+ this.echellex(this.xmax)
-			+","
-			+ this.echelley(0)
-			;
-		return coord;
-	}
-
 	this.tracer = function(donnees, fonctionx, fonctiony){
 		this.donnees = donnees;
 		var times = this.donnees.map(function(d){return d.Time});
 		this.animTime = Math.max(...times) * 1000;
-		//this.setscale(this.donnees, fonctionx, fonctiony);
 
 		this.getlf(donnees, fonctionx, fonctiony);
 		this.getsf(donnees, fonctionx, fonctiony);
@@ -409,7 +391,7 @@ gs.graph = function(idsvg, conf) {
 	this.drawGridX = function(){
 
 		this.gridX = d3.svg.axis()
-			.tickSize(- (this.height - this.margeH - this.margeB))
+			.tickSize(- (this.height - this.margeH - this.margeB - this.padH))
 			.scale(this.echellex);
 
 		this.gridXGroup = this.svg.append("g")
@@ -420,10 +402,12 @@ gs.graph = function(idsvg, conf) {
 
 		return this;
 	}
+
 	this.drawGradY = function(){
 
 		this.gradY = d3.svg.axis()
-			.orient("left")
+			.tickSize(20)
+			//.orient("left")
 			.scale(this.echelley);
 
 		this.gradYGroup = this.svg.append("g")

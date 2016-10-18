@@ -25,15 +25,23 @@
 	function fy(d){return d.Flung}
 	function fy2(d){return d.Pao}
 
-	var conf = {
+	var conf1 = {
+		class: "half",
+		margeG: 80,
+		margeD: 80,
+		margeH: 80,
+		margeB: 80
+	}
+
+	var conf2 = {
 		class: "half",
 		margeG: 60,
 		margeD: 10,
 		margeB: 40,
-	//	padD: 0,
-//		padH: 0
+		padD: 80,
+		padG: -80,
+		padH: 40
 	}
-
-	var graph = gs.addGraph("container", data, fx, fy, conf);
-	var graph2 = gs.addGraph("container", data, fx, fy2, conf);
+	var graph1 = gs.addGraph("container", data, fx, fy, conf1);
+	var graph2 = gs.addGraph("container", data, fx, fy, conf2);
 </script>
