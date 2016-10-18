@@ -1,0 +1,17 @@
+body {
+	text-align:center;
+}
+svg {
+	border: 1px dashed blue;
+}
+.square {
+	width:400px;
+	height:400px;
+}
+.half {
+	width: 800px;
+	height: 1200px;
+}
+
+
+

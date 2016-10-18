@@ -9,31 +9,16 @@
 <script src="../graphsimple.js" charset="utf-8"></script>
 <script src="simvent.js" charset="utf-8"></script>
 
-<link rel="stylesheet" type="text/css" href="../css/gs-scale-fill-clear.css" charset="utf-8"/>
-
-<style>
-	body {
-		text-align:center;
-	}
-	.square {
-		width:400px;
-		height:400px;
-	}
-	.half {
-		width: 400px;
-		height: 200px;
-	}
+<link rel="stylesheet" type="text/css" href="../css/gs-scale-clear.css" charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="../css/test-layout.css" charset="utf-8"/>
 
 
-</style>
-
-<div id="container">
-</div>
+<div id="container"> </div>
 
 <script>
 
 	var lung = new sv.SimpleLung();
-	var ventilator = new sv.FlowControler();	
+	var ventilator = new sv.VDR();	
 	var data = ventilator.ventilate(lung).timeData;
 	
 	function fx(d){return d.time}
@@ -45,8 +30,8 @@
 		margeG: 60,
 		margeD: 10,
 		margeB: 40,
-		padD: 0,
-		padH: 0
+	//	padD: 0,
+//		padH: 0
 	}
 
 	var graph = gs.addGraph("container", data, fx, fy, conf);
