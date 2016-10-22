@@ -1,10 +1,11 @@
 .gs path {
   fill: none;
   stroke: black;
-  stroke-width: 1px;
+  stroke-width: 2px;
   stroke-linejoin: round; }
   .gs path.surface {
-    fill: none; }
+    fill: none;
+    stroke: none; }
 .gs marker path {
   stroke-width: 2px;
   stroke: black;
@@ -21,6 +22,8 @@
   stroke-width: 1px;
   stroke: silver;
   stroke-dasharray: 5 5; }
+.gs .gridX path, .gs .gridY path {
+  stroke-width: 1px; }
 .gs .gridX text {
   transform: translate(0, 8px); }
 .gs .gridY text {

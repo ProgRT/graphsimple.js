@@ -17,14 +17,6 @@ gs.stat = function(iddiv, respd){
 	$(iddiv).append(tableau);
 };
 
-gs.unSurCent = function(v,i){
-	if (i%10){
-		return 0;
-	}
-	else{
-		return 1;
-	}
-}
 
 gs.graph = function(idsvg, conf) {
 
@@ -40,6 +32,7 @@ gs.graph = function(idsvg, conf) {
 	this.padB = 0;
 
 	this.padPlage = 5;
+	this.idPos = "center";
 	
 	this.durAnim = 1500;
 
@@ -102,6 +95,19 @@ gs.graph = function(idsvg, conf) {
 		this.xmin = d3.min(d, fx);
 		this.xmax = d3.max(d, fx);
 
+		if(this.padD != 0){
+			this.xmax += this.padD * (this.xmax - this.xmin);
+		}
+
+		if(this.padB != 0){
+			this.ymin -= this.padB * (this.ymax - this.ymin);
+		}
+		if(this.padG != 0){
+			this.xmin -= this.padG * (this.xmax - this.xmin);
+		}
+		if(this.padH != 0){
+			this.ymax += this.padH * (this.ymax - this.ymin);
+		}
 		this.echellex = d3.scale.linear()
 			.domain([this.xmin, this.xmax])
 			.range([this.margeG + this.padG, this.width - (this.margeD + this.padD)]);
@@ -143,7 +149,7 @@ gs.graph = function(idsvg, conf) {
 		
 		this.drawGridY();
 		this.drawGridX();
-		if (this.ligneZeroX == true) {this.tracerZeroX();}
+		if (this.ligneZeroX == false) {this.tracerZeroX();}
 
 		this.clip = this.defs.append("clipPath")
 			.attr("id", this.idsvg.replace("#","") + "clip");
@@ -179,7 +185,7 @@ gs.graph = function(idsvg, conf) {
 		this.getlf(donnees, fonctionx, fonctiony);
 		var coord = this.lf(donnees, fonctionx, fonctiony);
 
-		if (this.ligneZeroX == true) {this.tracerZeroX();}
+		if (this.ligneZeroX == false) {this.tracerZeroX();}
 
 		this.clip = this.defs.append("clipPath")
 			.attr("id", this.idsvg + "clip");
@@ -243,9 +249,12 @@ gs.graph = function(idsvg, conf) {
 	}
 
 	this.tracerZeroX = function(){
+		console.log("tracerZeroX");
 		this.ligneZeroX = this.svg.append("line")
-			.attr("x1", this.echellex(this.xmin))
-			.attr("x2", this.echellex(this.xmax))
+			//.attr("x1", this.margeG)
+			.attr("x1", 0)
+			//.attr("x2", this.width - this.margeD)
+			.attr("x2", 200)
 			.attr("y1", this.echelley(0))
 			.attr("y2", this.echelley(0))
 			.attr("class", "ligneZero");
@@ -315,22 +324,50 @@ gs.graph = function(idsvg, conf) {
 	}
 
 	this.setidx = function(texte){
+		var y = this.height - (.2 * this.margeB);
+
+		if(this.idPos == "center"){
+			var x = this.margeG + ((this.width - this.margeD)-this.margeG)/2;
+			var anchor = "middle";
+		}
+
+		else if(this.idPos == "end"){
+			var x = this.width - this.margeD;
+			var anchor = "end";
+		}
+
 		this.idx = this.svg.append("text")
-			.attr("x", this.width - this.margeD)
-			.attr("y", this.height - (.2 * this.margeB))
-			.attr("text-anchor", "end")
+			//.attr("x", this.width - this.margeD)
+			.attr("x", x)
+			//.attr("y", this.height - (.2 * this.margeB))
+			.attr("y", y)
+			.attr("text-anchor", anchor)
 			.text(texte);
+
 		return this;
 	}
 
 	this.setidy = function(texte){
-		var cx = this.margeG + 15;
-		var cy = this.margeH + 10;
+
+		if(this.idPos == "center"){
+			var x = this.margeG/3;
+			var y = this.margeH + ((this.height - (this.margeB + this.margeH))/2);
+			var anchor = "middle";
+			var transform = "rotate(-90 " + x + " " + y + ")";
+		}
+
+		else if(this.idPos == "end"){
+			var x = this.margeG + 15;
+			var y = this.margeH + 10;
+			var anchor = "start";
+		}
+
 		this.idy = this.svg.append("text")
-			.attr("y", cy)
-			.attr("x", cx)
-			.attr("text-anchor", "start")
-			.text(texte)
+			.attr("y", y)
+			.attr("x", x)
+			.attr("text-anchor", anchor)
+			.attr("transform", transform)
+			.text(texte);
 
 		return this;
 	}

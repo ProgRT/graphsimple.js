@@ -11,37 +11,35 @@
 
 <link rel="stylesheet" type="text/css" href="../css/gs-scale-clear.css" charset="utf-8"/>
 <link rel="stylesheet" type="text/css" href="../css/test-layout.css" charset="utf-8"/>
+<style>
 
+</style>
 
 <div id="container"> </div>
 
 <script>
 
 	var lung = new sv.SimpleLung();
-	var ventilator = new sv.VDR();	
+	var ventilator = new sv.PressureControler();	
 	var data = ventilator.ventilate(lung).timeData;
 	
 	function fx(d){return d.time}
 	function fy(d){return d.Flung}
-	function fy2(d){return d.Pao}
 
 	var conf1 = {
 		class: "half",
-		margeG: 80,
-		margeD: 80,
-		margeH: 80,
-		margeB: 80
+		margeG: 90,
+		margeD: 5,
+		margeH: 5,
+		margeB: 70,
+		padG: 0,
+		padD: 0,	
+		padH: 0,	
+		padB: 0
 	}
 
-	var conf2 = {
-		class: "half",
-		margeG: 60,
-		margeD: 10,
-		margeB: 40,
-		padD: 80,
-		padG: -80,
-		padH: 40
-	}
 	var graph1 = gs.addGraph("container", data, fx, fy, conf1);
-	var graph2 = gs.addGraph("container", data, fx, fy, conf2);
+	graph1.idPos = "center";
+	graph1.setidx("Temps (s)");
+	graph1.setidy("Débit (l/s)");
 </script>
