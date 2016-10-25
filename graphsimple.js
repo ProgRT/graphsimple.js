@@ -41,7 +41,8 @@ gs.graph = function(idsvg, conf) {
 	}
 
 
-	this.svg = d3.select(idsvg);
+	this.svg = d3.select(idsvg)
+		.classed("gs", true);
 
 	this.animations = [];
 	this.anotations = [];
@@ -176,6 +177,7 @@ gs.graph = function(idsvg, conf) {
 
 
 
+		//this.playSimb();
 		return this;
 	}
 
@@ -469,6 +471,12 @@ gs.graph = function(idsvg, conf) {
 
 		return this;
 	}
+	this.playSimb = function(){
+		this.svg.append("polygon")
+			.attr("class", "playSimb")
+			.attr("points", "0,0 0,50 43.3,25 0,0");
+		return this;
+	}
 	return this;
 }
 
@@ -476,60 +484,6 @@ gs.quickGraph = function(div, data, fx, fy, conf){
 	return gs.graph(div, conf)
 		.setscale(data, fx, fy)
 		.tracer(data, fx, fy);
-}
-
-gs.reiley = function(idsvg, d){
-	this.svg = d3.select(idsvg);
-	this.width = this.svg.style("width");
-	this.width = this.width.substr(0, this.width.length-2);
-
-	var padG = 70;
-	var longBr = 150;
-	var largBr = 40;
-	var stroke = 3;
-	var facteurVent = 20;
-	var alvMin = 15;
-	var alvdist = (this.width - 2 * padG)/(d.length -1);
-	this.alvdist = alvdist;
-	
-	d3.select(idsvg).selectAll("rect.brExt")
-			.data(d)
-		.enter()
-			.append("rect")
-			.attr("x", function(d,i){return i * alvdist + padG - largBr/2})
-			.attr("y", 0)
-			.attr("width", largBr)
-			.attr("height", longBr)
-			.style("fill", "black");
-
-	d3.select(idsvg).selectAll("circle.alvExt")
-			.data(d)
-		.enter()
-			.append("circle")
-			.attr("cx", function(d,i){return i * alvdist + padG})
-			.attr("cy", longBr)
-			.attr("r", function(d){return alvMin + facteurVent * d.ventilation})
-			.style("fill", "black");
-
-	d3.select(idsvg).selectAll("rect.brInt")
-			.data(d)
-		.enter()
-			.append("rect")
-			.attr("x", function(d,i){return i * alvdist + padG - largBr/2 + stroke})
-			.attr("y", 0)
-			.attr("width", largBr - 2 * stroke)
-			.attr("height", longBr)
-			.style("fill", "white");
-
-	d3.select(idsvg).selectAll("circle.alvInt")
-			.data(d)
-		.enter()
-			.append("circle")
-			.attr("cx", function(d,i){return i * alvdist + padG})
-			.attr("cy", longBr)
-			.attr("r", function(d){return alvMin + facteurVent * d.ventilation - stroke})
-			.style("fill", "white");
-
 }
 
 gs.randomHue = function(saturation, lightnes){
@@ -542,12 +496,15 @@ gs.addGraph = function(target, data, fx, fy, conf){
 	var newSVGid = target + "SVG" + numSVG;
 	var newsvg = d3.select("#" + target)
 		.append("svg")
-		.attr("id", newSVGid);
+		.attr("id", newSVGid)
+		;
 	if (typeof conf.class != "undefined"){
-		newsvg.attr("class", "gs " + conf.class);
+		newsvg.classed(conf.class, true);
 	}
+	/*
 	else {
 		newsvg.attr("class", "gs");
 	}
+	*/
 	return gs.quickGraph("#" + newSVGid, data, fx, fy, conf);
 }
