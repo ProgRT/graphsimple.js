@@ -153,7 +153,7 @@ gs.graph = function(idsvg, conf) {
 		
 		this.drawGridY();
 		this.drawGridX();
-		if (this.ligneZeroX == false) {this.tracerZeroX();}
+		if (this.ligneZeroX == undefined) {this.tracerZeroX();}
 
 		this.clip = this.defs.append("clipPath")
 			.attr("id", this.idsvg.replace("#","") + "clip");
@@ -187,7 +187,7 @@ gs.graph = function(idsvg, conf) {
 		this.getlf(donnees, fonctionx, fonctiony);
 		var coord = this.lf(donnees, fonctionx, fonctiony);
 
-		if (this.ligneZeroX == false) {this.tracerZeroX();}
+		if (this.ligneZeroX == undefined) {this.tracerZeroX();}
 
 		this.clip = this.defs.append("clipPath")
 			.attr("id", this.idsvg + "clip");
@@ -252,10 +252,10 @@ gs.graph = function(idsvg, conf) {
 	this.tracerZeroX = function(){
 		console.log("tracerZeroX");
 		this.ligneZeroX = this.svg.append("line")
-			//.attr("x1", this.margeG)
-			.attr("x1", 0)
-			//.attr("x2", this.width - this.margeD)
-			.attr("x2", 200)
+			.attr("x1", this.margeG)
+		//	.attr("x1", 0)
+			.attr("x2", this.width - this.margeD)
+			//.attr("x2", 200)
 			.attr("y1", this.echelley(0))
 			.attr("y2", this.echelley(0))
 			.attr("class", "ligneZero");
