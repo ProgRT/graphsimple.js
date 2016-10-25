@@ -25,21 +25,15 @@
 	
 	function fx(d){return d.time}
 	function fy(d){return d.Flung}
+	
+	gs.defaults["margeG"]=90;
+	gs.defaults["margeD"]=5;
+	gs.defaults["margeH"]=5;
+	gs.defaults["margeB"]=70;
 
-	var conf1 = {
-		class: "half",
-		margeG: 90,
-		margeD: 5,
-		margeH: 5,
-		margeB: 70,
-		padG: 0,
-		padD: 0,	
-		padH: 0,	
-		padB: 0
-	}
+	var conf1 = {class: "half"}
 
 	var graph1 = gs.addGraph("container", data, fx, fy, conf1);
-	graph1.idPos = "center";
 	graph1.setidx("Temps (s)");
 	graph1.setidy("Débit (l/s)");
 </script>

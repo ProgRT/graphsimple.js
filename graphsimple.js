@@ -1,5 +1,19 @@
 var gs = {};
 
+gs.defaults = {
+	margeG: 20,
+	margeD: 20,
+	margeH: 20,
+	margeB: 20,
+	padG: 0,
+	padD: 0,
+	padH: 0,
+	padB: 0,
+	idPos: "center",
+	durAnim: 1500,
+	padPlage: 5
+};
+
 gs.animer = function(graph){
 	if(graph.curAnim < graph.animations.length){
 		graph.animations[graph.curAnim]();
@@ -21,25 +35,14 @@ gs.stat = function(iddiv, respd){
 gs.graph = function(idsvg, conf) {
 
 	this.idsvg = idsvg;
-	this.margeG = 20;
-	this.margeD = 20;
-	this.margeH = 20;
-	this.margeB = 50;
 
-	this.padG = 0;
-	this.padD = 0;
-	this.padH = 0;
-	this.padB = 0;
-
-	this.padPlage = 5;
-	this.idPos = "center";
-	
-	this.durAnim = 1500;
+	for(index in gs.defaults){
+		this[index] = gs.defaults[index];
+	}
 
 	for(index in conf){
 		this[index] = conf[index];
 	}
-
 
 	this.svg = d3.select(idsvg)
 		.classed("gs", true);
@@ -174,9 +177,6 @@ gs.graph = function(idsvg, conf) {
 			.attr("d", coord)
 			.style("clip-path", "url(" + this.idsvg + "clip)")
 			;
-
-
-
 		//this.playSimb();
 		return this;
 	}
@@ -207,7 +207,6 @@ gs.graph = function(idsvg, conf) {
 
 		return this;
 	}
-
 
 	// To simulate continuous plotting like the one seen in medical ventilators,
 	// we plot the entire time serie, hidden by a zero width clip rectangle, and then
@@ -374,7 +373,6 @@ gs.graph = function(idsvg, conf) {
 		return this;
 	}
 
-
 	this.pointy = function(val, id){
 		var ligne = this.svg.append("line")
 			.attr("x1", this.margeG)
@@ -411,6 +409,7 @@ gs.graph = function(idsvg, conf) {
 			.text(id);
 		this.anotations.push(an);
 	}
+
 	this.drawGridY = function(){
 
 		this.gridY = d3.svg.axis()
@@ -491,6 +490,7 @@ gs.randomHue = function(saturation, lightnes){
 	var color = "hsl( " + hue + ", " + saturation + "%, " + lightnes + "% )";
 	return color;
 }
+
 gs.addGraph = function(target, data, fx, fy, conf){
 	var numSVG = document.getElementsByTagName("svg").length + 1; 
 	var newSVGid = target + "SVG" + numSVG;
