@@ -153,9 +153,6 @@ gs.graph = function(idsvg, conf) {
 		
 		this.drawGridY();
 		this.drawGridX();
-		//if (this.ligneZeroX == undefined) {
-			this.tracerZeroX();
-	//		}
 
 		this.clip = this.defs.append("clipPath")
 			.attr("id", this.idsvg.replace("#","") + "clip");

@@ -8,6 +8,7 @@
 -->
 <script src="../graphsimple.js" charset="utf-8"></script>
 <script src="../../simvent.js/simvent.js" charset="utf-8"></script>
+<script src="../../simvent.js/frontpaneljs/dict.js" charset="utf-8"></script>
 
 <link rel="stylesheet" type="text/css" href="../css/gs-scale-clear.css" charset="utf-8"/>
 <link rel="stylesheet" type="text/css" href="../css/test-layout.css" charset="utf-8"/>
@@ -41,16 +42,29 @@
 
 		var graph1 = gs.addGraph("container", data, fx, fy, conf1);
 		graph1.setidx("Temps (s)");
-		graph1.setidy(param);
+		graph1.setidy(param + " (" + dict[param].unit.en + ")");
 	}
 
-	var lung = new sv.SimpleLung();
-	var ventilator = new sv.PressureControler();	
+	function loop(px, py){
+		function fx(d){return d[px]}
+		function fy(d){return d[py]}
+
+		var graph1 = gs.addGraph("container", data, fx, fy, {class: "square"});
+		graph1.setidx(px + " (" + dict[px].unit.en + ")");
+		graph1.setidy(py + " (" + dict[px].unit.en + ")");
+	}
+
+	var lung = new sv.SptLung();
+	lung.Fspt=0;
+	var ventilator = new sv.VDR();	
 	ventilator.Fconv = 10;
 	var data = ventilator.ventilate(lung).timeData;
 	
 	for ( p in params ) {
 		plot(params[p]);
 	}
+
+	loop("Palv", "Vabs");
+	loop("Pel", "Vabs");
 
 </script>
