@@ -144,7 +144,7 @@ gs.graph = function(idsvg, conf) {
 	this.tracer = function(donnees, fonctionx, fonctiony){
 		this.donnees = donnees;
 		var times = this.donnees.map(function(d){return d.Time});
-		this.animTime = Math.max(...times) * 1000;
+		this.animTime = Math.max(times) * 1000;
 
 		this.getlf(donnees, fonctionx, fonctiony);
 		this.getsf(donnees, fonctionx, fonctiony);
