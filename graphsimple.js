@@ -290,7 +290,8 @@ export class graph {
 					 return this;
 		  }
 
-		  redessiner(){
+		  redessiner = ()=>{
+		console.log("[graphsimple.graph] =>redessiner");
 					 this.setRanges();
 					 this.SetScale();
 
