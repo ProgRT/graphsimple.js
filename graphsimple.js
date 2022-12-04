@@ -45,6 +45,16 @@ export class graph {
 					 if('class' in this){
 								this.svg.classed(this.class, true);
 					 }
+
+					if('viewBox' in this){
+						this.svg.attr('viewBox', this.viewBox);
+					}
+
+					let o = new ResizeObserver(this.redessiner);
+					let elem = document.querySelector(this.idsvg);
+					let pelem = elem.parentElement;
+					o.observe(pelem);
+
 					 this.gridGroup = this.svg.append("g")
 								.attr("id", "gridGroup");
 
