@@ -3,10 +3,10 @@ if(typeof d3 == 'undefined'){
 }
 
 const defaults = {
-		  margeG: 20,
+		  margeG: 80,
 		  margeD: 20,
 		  margeH: 20,
-		  margeB: 20,
+		  margeB: 60,
 		  padG: 0,
 		  padD: 0,
 		  padH: 0,
