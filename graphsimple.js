@@ -442,6 +442,7 @@ export class graph {
 		  plagexDraw(p) {
 
 					 if(p.ligne){p.ligne.remove()}
+					 if(p.shade){p.shade.remove()}
 					 if(p.texteDisplay){p.texteDisplay.remove()}
 
 					 p.ligne = this.plageGroup.append("line")
@@ -462,6 +463,12 @@ export class graph {
 								.attr("text-anchor", "middle")
 								.text(p.id)
 					 ;
+
+						p.shade = this.plageGroup.append('rect')
+							.attr('x', this.echellex(p.min))
+							.attr('y', this.margeH)
+							.attr('height', this.height - this.margeH - this.margeB)
+							.attr('width', this.echellex(p.max) - this.echellex(p.min));
 		  }
 
 		  plagex (min, max, id, y){
