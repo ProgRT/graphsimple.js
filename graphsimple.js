@@ -675,7 +675,6 @@ export class graph {
         return this;
     }
 
-    //	return this;
 }
 
 export function quickGraph(div, data, fx, fy, conf){
